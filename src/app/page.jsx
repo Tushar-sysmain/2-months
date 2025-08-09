@@ -14,7 +14,7 @@ import TapToReveal from "@/components/TapToReveal"
 // Change this to your anniversary date
 const ANNIVERSARY_DATE = "2025-05-25T00:00:00"
 // Change this to the date you got together
-const TOGETHER_DATE = "2022-06-25T00:12:10"
+const TOGETHER_DATE = "2025-06-25T00:12:10"
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
