@@ -51,3 +51,20 @@ export default function BackgroundMusic() {
     </>
   );
 }
+
+
+
+
+
+import BackgroundMusic from "public/music.mp3";
+
+function App() {
+  return (
+    <div>
+      <BackgroundMusic />
+      <h1>Welcome 🎵</h1>
+    </div>
+  );
+}
+
+export default App;
