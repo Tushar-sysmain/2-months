@@ -97,7 +97,7 @@ export default function PhotoGallery({ photos }) {
 
                         <div className="relative h-64 w-full ">
                             <Image
-                                src={photo.src || "/placeholder.svg"}
+                                src={photo.src || "/image3.png"}
                                 alt={photo.alt}
                                 fill
                                 sizes="200"
