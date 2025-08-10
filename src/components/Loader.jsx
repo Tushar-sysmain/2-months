@@ -103,7 +103,7 @@ export default function Loader() {
                             ease: "easeInOut",
                         }}
                     >
-                        Loading our Friendship story.....
+                        Loading our Dumbship story.....
                     </motion.p>
 
                     <motion.div
