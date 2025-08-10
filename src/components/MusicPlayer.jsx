@@ -1,44 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function App() {
   const audioRef = useRef(null);
-  const [showPlayButton, setShowPlayButton] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Try muted autoplay
+    audio.volume = 0; // start silent
     audio.muted = true;
     audio.play()
       .then(() => {
-        console.log("Music autoplayed (muted).");
-        // Optional: unmute after short delay
-        setTimeout(() => {
-          audio.muted = false;
-        }, 500); // fade-in effect can be added here
+        console.log("Music started muted");
+        audio.muted = false;
+        // Fade in volume
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 1) {
+            vol += 0.05;
+            audio.volume = vol;
+          } else {
+            clearInterval(fade);
+          }
+        }, 200);
       })
-      .catch(() => {
-        console.log("Autoplay blocked. Showing play button.");
-        setShowPlayButton(true);
+      .catch(err => {
+        console.warn("Autoplay blocked — needs user click", err);
+        // If blocked, attach listener for first user interaction
+        const startOnClick = () => {
+          audio.play();
+          document.removeEventListener("click", startOnClick);
+        };
+        document.addEventListener("click", startOnClick);
       });
   }, []);
 
-  const handlePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.muted = false;
-    audio.play();
-    setShowPlayButton(false);
-  };
-
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Welcome to My React Site 🎵</h1>
-      {showPlayButton && (
-        <button onClick={handlePlay}>Play Music</button>
-      )}
-      <audio ref={audioRef} src="public/bg.mp3" loop />
+      <h1>React Autoplay Music 🎵</h1>
+      <audio ref={audioRef} src="/music.mp3" loop preload="auto" />
     </div>
   );
 }
