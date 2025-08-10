@@ -1,90 +1,44 @@
-"use client"
+import React, { useEffect, useRef, useState } from "react";
 
-import { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
-import { Volume2, VolumeX } from "lucide-react"
+export default function App() {
+  const audioRef = useRef(null);
+  const [showPlayButton, setShowPlayButton] = useState(false);
 
-export default function MusicPlayer({ playSong }) {
-    const [isPlaying, setIsPlaying] = useState(false)
-    const audioRef = useRef(null)
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    useEffect(() => {
-        audioRef.current = new Audio("/public.bg.mp3");
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0.5;
+    // Try muted autoplay
+    audio.muted = true;
+    audio.play()
+      .then(() => {
+        console.log("Music autoplayed (muted).");
+        // Optional: unmute after short delay
+        setTimeout(() => {
+          audio.muted = false;
+        }, 500); // fade-in effect can be added here
+      })
+      .catch(() => {
+        console.log("Autoplay blocked. Showing play button.");
+        setShowPlayButton(true);
+      });
+  }, []);
 
-        return () => {
-            // clean up
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current = null;
-            }
-        };
-    }, []);
+  const handlePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = false;
+    audio.play();
+    setShowPlayButton(false);
+  };
 
-    useEffect(() => {
-        if (playSong && audioRef.current && audioRef.current.paused) {
-            audioRef.current.play().then(() => {
-                setIsPlaying(true);
-            }).catch((err) => {
-                console.error("Playback error:", err);
-            });
-        }
-    }, [playSong]);
-
-
-    const togglePlayback = () => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        if (isPlaying) {
-            audio.pause();
-            setIsPlaying(false);
-        } else {
-            audio.play().catch((err) => {
-                console.error("Playback error:", err);
-            });
-            setIsPlaying(true);
-        }
-    };
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="fixed top-4 right-4 z-40"
-        >
-            <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={togglePlayback}
-                className="bg-white/80 rounded-full cursor-pointer p-3 shadow-lg flex items-center justify-center text-pink-600 hover:bg-pink-50 transition-colors"
-                aria-label={isPlaying ? "Pause music" : "Play music"}
-            >
-                <motion.div
-                    animate={
-                        isPlaying
-                            ? {
-                                scale: [1, 1.2, 1],
-                                rotate: [0, 5, 0, -5, 0],
-                            }
-                            : { scale: 1 }
-                    }
-                    transition={
-                        isPlaying
-                            ? {
-                                duration: 1.5,
-                                repeat: Number.POSITIVE_INFINITY,
-                                ease: "easeInOut",
-                            }
-                            : {}
-                    }
-                >
-                    {isPlaying ? <Volume2 size={22} /> : <VolumeX size={22} />}
-                </motion.div>
-
-            </motion.button>
-        </motion.div>
-    )
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Welcome to My React Site 🎵</h1>
+      {showPlayButton && (
+        <button onClick={handlePlay}>Play Music</button>
+      )}
+      <audio ref={audioRef} src="public/bg.mp3" loop />
+    </div>
+  );
 }
