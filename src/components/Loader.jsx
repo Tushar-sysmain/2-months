@@ -4,12 +4,6 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
 
 
-import React from "react";
-import BackgroundMusic from "./components/BackgroundMusic";
-
-
-export default App;
-
 export default function Loader() {
     const [items, setItems] = useState([]);
 
