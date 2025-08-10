@@ -9,7 +9,7 @@ export default function MusicPlayer({ playSong }) {
     const audioRef = useRef(null)
 
     useEffect(() => {
-        audioRef.current = new Audio("/bg.mp3");
+        audioRef.current = new Audio("/public.bg.mp3");
         audioRef.current.loop = true;
         audioRef.current.volume = 0.5;
 
