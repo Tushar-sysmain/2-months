@@ -3,6 +3,22 @@
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
 
+
+import React from "react";
+import BackgroundMusic from "./components/BackgroundMusic";
+
+function App() {
+  return (
+    <>
+      <BackgroundMusic src="/sounds/bg-music.mp3" />
+      <h1>Welcome to My Site 🎵</h1>
+      {/* Your other components */}
+    </>
+  );
+}
+
+export default App;
+
 export default function Loader() {
     const [items, setItems] = useState([]);
 
