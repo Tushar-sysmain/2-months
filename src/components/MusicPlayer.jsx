@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import BackgroundMusic from "./public/music.mp3"
+import BackgroundMusic from "public/music.mp3"
 
 export default function App() {
   const audioRef = useRef(null);
@@ -39,7 +39,7 @@ export default function App() {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>React Autoplay Music 🎵</h1>
-      <audio ref={audioRef} src="/music.mp3" loop preload="auto" />
+      <audio ref={audioRef} src="public/music.mp3" loop preload="auto" />
     </div>
   );
 }
